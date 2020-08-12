@@ -64,7 +64,7 @@ h1, h2, h3, h4, h5, h6 {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 300px;
+  width: 240px;
   transition: all ease-in-out 0.5s;
   z-index: 9997;
   transition: all 0.5s;
@@ -74,10 +74,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header .profile img {
-  margin: 15px auto;
+  margin: 10px auto;
   display: block;
   width: 120px;
-  border: 8px solid #2c2f3f;
+  border: 6px solid #2c2f3f;
 }
 
 #header .profile h1 {
@@ -134,7 +134,7 @@ h1, h2, h3, h4, h5, h6 {
 --------------------------------------------------------------*/
 /* Desktop Navigation */
 .nav-menu {
-  padding-top: 30px;
+  padding-top: 20px;
 }
 
 .nav-menu * {
@@ -152,7 +152,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   color: #a8a9b4;
-  padding: 12px 15px;
+  padding: 10px 15px;
   margin-bottom: 8px;
   transition: 0.3s;
   font-size: 15px;
@@ -172,6 +172,30 @@ h1, h2, h3, h4, h5, h6 {
 .nav-menu a:hover i, .nav-menu .active > a i, .nav-menu li:hover > a i {
   color: #149ddd;
 }
+
+@media (max-height: 775px) {
+  .nav-menu {
+    padding-top: 7px;
+  }
+  .nav-menu a {
+    display: flex;
+    align-items: center;
+    color: #a8a9b4;
+    padding: 5px 15px;
+    margin-bottom: 5px;
+    transition: 0.3s;
+    font-size: 12px;
+  }
+
+  .nav-menu a i {
+    font-size: 18px;
+    padding-right: 8px;
+    color: #6f7180;
+  }
+
+  
+}
+
 
 /* Mobile Navigation */
 .mobile-nav-toggle {
@@ -243,7 +267,7 @@ h1, h2, h3, h4, h5, h6 {
 #hero p {
   color: #fff;
   margin-bottom: 50px;
-  font-size: 26px;
+  font-size: 24px;
   font-family: "Poppins", sans-serif;
 }
 
@@ -265,6 +289,12 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 28px;
     line-height: 36px;
   }
+
+  #hero p {
+    font-size: 14px;
+    line-height: 36px;
+  }
+
   #hero h2 {
     font-size: 18px;
     line-height: 24px;
@@ -276,7 +306,7 @@ h1, h2, h3, h4, h5, h6 {
 # Sections General
 --------------------------------------------------------------*/
 section {
-  padding: 60px 0;
+  padding: 2% 0;
   overflow: hidden;
 }
 
@@ -285,14 +315,14 @@ section {
 }
 
 .section-title {
-  padding-bottom: 30px;
+  padding-bottom: 2.5%;
 }
 
 .section-title h2 {
   font-size: 32px;
   font-weight: bold;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  margin-bottom: 2%;
+  padding-bottom: 2%;
   position: relative;
   color: #173b6c;
 }
@@ -1052,26 +1082,39 @@ section {
 # Footer
 --------------------------------------------------------------*/
 #footer {
-  padding: 15px;
+  padding: 0px 15px 2px 15px;
   color: #f4f6fd;
   font-size: 14px;
   position: fixed;
   left: 0;
   bottom: 0;
-  width: 300px;
+  width: 240px;
   z-index: 9999;
   background: #040b14;
 }
 
 #footer .copyright {
+  text-align: left;
+}
+#footer .profile .social-links a {
+  font-size: 18px;
+  display: inline-block;
+  background: #212431;
+  color: #fff;
+  line-height: 1;
+  padding: 8px 0;
+  margin-right: 4px;
+  border-radius: 50%;
   text-align: center;
+  width: 36px;
+  height: 36px;
+  transition: 0.3s;
 }
 
-#footer .credits {
-  padding-top: 5px;
-  text-align: center;
-  font-size: 13px;
-  color: #eaebf0;
+#footer .profile .social-links a:hover {
+  background: #149ddd;
+  color: #fff;
+  text-decoration: none;
 }
 
 @media (max-width: 1199px) {

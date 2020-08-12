@@ -10,8 +10,10 @@ var twoQuery2=0;
 var twoQuery3=0;
 var oldData = 0;
 var newData = 0;
-var x1_metric="GDPOverall";
-var x2_metric="GDPPerCapita";
+var overallElement = d3.select('.summaryLevel').node();
+var overallWidth=overallElement.getBoundingClientRect().width;
+
+
 function checkColumn(input_value) {
     input_value=input_value-1;
     var quotient = Math.floor(input_value/26);
@@ -37,21 +39,15 @@ function drawAllSheets() {
     sleep(500);
     drawSheetName('Overall_Perfomance','SELECT B,C',yearlyPerformanceResponseHandler);
     drawSheetName('Overall_Perfomance','SELECT B,C',yearlyPerformanceResponseHandler);
-    drawSheetName('HR_Summary','SELECT A,B,C,D', c1Chart1ResponseHandler);
-    drawSheetName('HR_Paid_Unpaid','SELECT A,B,C,D', c1Chart2ResponseHandler);
-    drawSheetName('Toys_Summary','SELECT A,B,C,D', c2Chart1ResponseHandler);
-    drawSheetName('Toys_Paid_Unpaid','SELECT A,B,C,D', c2Chart2ResponseHandler);
-    drawSheetName('HG_Summary','SELECT A,B,C,D', c3Chart1ResponseHandler);
-    drawSheetName('HG_Paid_Unpaid','SELECT A,B,C,D', c3Chart2ResponseHandler);
-    drawSheetName('Deals_Summary','SELECT A,B,C,D', c4Chart1ResponseHandler);
-    drawSheetName('Deals_Paid_Unpaid','SELECT A,B,C,D', c4Chart2ResponseHandler);
+    drawSheetName('Channel_Data','SELECT A,B,C,D,E,F,G', channelPerformanceResponseHandler);
+
     
 } //drawAllSheets
 
 function drawSheetName(sheetName, query, responseHandler) {
     var queryString = encodeURIComponent(query);
     var query = new google.visualization.Query(
-        'https://docs.google.com/spreadsheets/d/1AsKJDhVUp_B4stegHZlxBjMJtMXdyxH85GoU9D_bhCs/gviz/tq?sheet='
+        'https://docs.google.com/spreadsheets/d/1Vg-s8YHljB-YEuiKsWi5fWxqzuNdjS6QKSvWGLI7VRY/gviz/tq?sheet='
                 + sheetName + '&headers=1&tq=' + queryString); //Query
     query.send(responseHandler);
 }
@@ -82,16 +78,18 @@ function summaryResponseHandler(response) {
 
     var options1 = {
         legend: { position: 'none' },
-        backgroundColor: "#f5f8fd",
+        //backgroundColor: "#f5f8fd",
         series: {
-            0: {color: "#2B5391"},
-            1: {color: "#ECBD62"},
-            2: {color: "#95BB63"}
+            0: {color: "#003f5c"},
+            1: {color: "#bc5090"},
+            2: {color: "#ffa600"}
         },
         chartArea:{
             top:5,
-            width: 222,
-            height: 463}
+            width: (222/1110)*overallWidth,
+            height: (463/1110)*overallWidth},
+        vAxis:{gridlines:{color:'transparent'},
+        ticks: [0,350,700,1050,1400,1750,2100] }
     };
 
     summaryChart1.draw(dataView1,options1);
@@ -100,16 +98,18 @@ function summaryResponseHandler(response) {
     //var diffData2 = colChartDiff2.computeDiff(oldView2, newView2);
     var options2 = {
         legend: { position: 'none' },
-        backgroundColor: "#f5f8fd",
+        //backgroundColor: "#f5f8fd",
         series: {
-            0: {color: "#2B5391"},
-            1: {color: "#ECBD62"},
-            2: {color: "#95BB63"}
+            0: {color: "#003f5c"},
+            1: {color: "#bc5090"},
+            2: {color: "#ffa600"}
         },
         chartArea:{
             top:5,
-            width: 222,
-            height: 463}
+            width: (222/1110)*overallWidth,
+            height: (463/1110)*overallWidth},
+        vAxis:{gridlines:{color:'transparent'},
+        ticks: [0,50,100,150,200,250,300] }
     };
     summaryChart2.draw(dataView2,options2);
 
@@ -117,16 +117,18 @@ function summaryResponseHandler(response) {
     //var diffData3 = colChartDiff3.computeDiff(oldView3, newView3);
     var options3 = {
         legend: { position: 'right' },
-        backgroundColor: "#f5f8fd",
+        //backgroundColor: "#f5f8fd",
         series: {
-            0: {color: "#2B5391"},
-            1: {color: "#ECBD62"},
-            2: {color: "#95BB63"}
+            0: {color: "#003f5c"},
+            1: {color: "#bc5090"},
+            2: {color: "#ffa600"}
         },
         chartArea:{
             top:5,
-            width: 222,
-            height: 463}
+            width: (222/1110)*overallWidth,
+            height: (463/1110)*overallWidth},
+        vAxis:{gridlines:{color:'transparent'},
+        ticks: [0,250,500,750,1000,1250,1500] }
     };
 
     summaryChart3.draw(dataView3,options3);
@@ -182,11 +184,24 @@ function yearlyPerformanceResponseHandler(response) {
         //var colChartDiff1 = new google.visualization.ColumnChart(document.getElementById('yearlyPerformance1_div'));
         //var diffData1 = colChartDiff1.computeDiff(oldView1, newView1);
         var options1 = {
-            title: "Visits (in Millions)",
-            legend: { position: 'top' },
+            //title: "Visits (in Millions)",
+            legend: { position: 'none' },
+            tooltip: {trigger: "none"},
             series: {
-                0: {color: "#3E68C5" }
-            }
+                0: {color: "#003f5c" }
+            },
+            hAxis: {
+                title: "Visits (in Thousands)"
+              },
+            vAxis:{
+                  gridlines:{
+                      count:0 },
+                      ticks: [0,300,600,900,1200] },
+            chartArea:{
+                    top:5,
+                    width: (250/1110)*overallWidth,
+                    height: "90%" }
+              
         };
 
         colChartDiff1.draw(diffData1,options1);
@@ -194,54 +209,58 @@ function yearlyPerformanceResponseHandler(response) {
         //var colChartDiff2 = new google.visualization.ColumnChart(document.getElementById('yearlyPerformance2_div'));
         //var diffData2 = colChartDiff2.computeDiff(oldView2, newView2);
         var options2 = {
-            title: "Orders (in Millions)",
-            legend: { position: 'top' },
+            //title: "Orders (in Millions)",
+            legend: { position: 'none' },
+            tooltip: {trigger: "none"},
             series: {
-                0: {color: "#CC4627"}
-            }
+                0: {color: "#bc5090"}
+            },
+            hAxis: {
+                title: "Orders (in Thousands)"
+              },
+            vAxis:{
+                  gridlines:{
+                      count:0 },
+                      ticks: [0,40,80,120,160] },
+            chartArea:{
+                    top:5,
+                    width: (250/1110)*overallWidth,
+                    height: "90%" }
         };
         colChartDiff2.draw(diffData2,options2);
 
         //var colChartDiff3 = new google.visualization.ColumnChart(document.getElementById('yearlyPerformance3_div'));
         //var diffData3 = colChartDiff3.computeDiff(oldView3, newView3);
         var options3 = {
-            title: "Revenue (in Million ($))",
-            legend: { position: 'top' },
+            //title: "Revenue (in Million ($))",
+            legend: { position: 'none' },
+            tooltip: {trigger: "none"},
             series: {
-                0: {color: "#F29C38"}
-            }
+                0: {color: "#ffa600"}
+            },
+            hAxis: {
+                title: "Revenue (in Thousand ($))"
+              },
+            vAxis:{
+                  gridlines:{
+                      count:0 },
+                ticks: [0,200,400,600,800] },
+            chartArea:{
+                    top:5,
+                    width: (250/1110)*overallWidth,
+                    height: "90%" }
         };
-
+        
         colChartDiff3.draw(diffData3,options3);
 
     }}//yearlyPerformanceResponseHandler
 
 
-function c1Chart1ResponseHandler(response) {
-
-    var chartData=response.getDataTable();
-    var chart = new google.visualization.ColumnChart(document.getElementById('c1Chart1'));
-    
-    var options = {
-        legend: { position: 'right' },
-        backgroundColor: "none",//"#f5f8fd",
-        series: {
-            0: {color: "#2B5391"},
-            1: {color: "#ECBD62"},
-            2: {color: "#95BB63"}
-        }
-    };
-
-    chart.draw(chartData,options);
-
-}//c1Chart1ResponseHandler
-
-
-function c1Chart2ResponseHandler(response) {
+function channelPerformanceResponseHandler(response) {
 
     var chartData=response.getDataTable();
     console.log(chartData)
-    var chart = new google.visualization.ComboChart(document.getElementById('c1Chart2'));
+    var chart = new google.visualization.ComboChart(document.getElementById('channelPerformance_div'));
     
     var options = {
         //vAxis: {title: 'Visits'},
@@ -250,189 +269,34 @@ function c1Chart2ResponseHandler(response) {
         
         vAxes: {
             0: {
-                title:'Visits (in Thousands)',
+                title:'Visits',
                 minorGridlines: {color: 'transparent'}
                 //textStyle: {color: 'orange'}
               },
                   1: {
                     title:'Order Conversion Rate',
                     minorGridlines: {color: 'transparent'},
-                    textStyle: {color: '#D88449'}
+                    textStyle: {color: '#003f5c'}
                   }},
         series: {
-            0: {color: "#234087"},
-            1: {color: "#83ACD8"},
-            2: {type: 'line', targetAxisIndex:1, color:"#D88449"}},  
-        isStacked: true
-         };
+            0: {color: "#444e86"},
+            1: {color: "#955196"},
+            2: {color: "#dd5182"},
+            3: {color: "#ff6e54"},
+            4: {color: "#ffa600"},
 
-    chart.draw(chartData,options);
-
-}//c1Chart2ResponseHandler
-
-
-
-function c2Chart1ResponseHandler(response) {
-
-    var chartData=response.getDataTable();
-    var chart = new google.visualization.ColumnChart(document.getElementById('c2Chart1'));
-    
-    var options = {
-        legend: { position: 'right' },
-        backgroundColor: "none",//"#f5f8fd",
-        series: {
-            0: {color: "#2B5391"},
-            1: {color: "#ECBD62"},
-            2: {color: "#95BB63"}
-        }
-    };
-
-    chart.draw(chartData,options);
-
-}//c2Chart1ResponseHandler
-
-
-function c2Chart2ResponseHandler(response) {
-
-    var chartData=response.getDataTable();
-    console.log(chartData)
-    var chart = new google.visualization.ComboChart(document.getElementById('c2Chart2'));
-    
-    var options = {
-        //vAxis: {title: 'Visits'},
-        seriesType: 'bars',
-        hAxis: {gridlines: {color: 'transparent'}},
-        
-        vAxes: {
-            0: {
-                title:'Visits (in Thousands)',
-                minorGridlines: {color: 'transparent'}
-                //textStyle: {color: 'orange'}
-              },
-                  1: {
-                    title:'Order Conversion Rate',
-                    minorGridlines: {color: 'transparent'},
-                    textStyle: {color: '#D88449'}
-                  }},
-        series: {
-            0: {color: "#234087"},
-            1: {color: "#83ACD8"},
-            2: {type: 'line', targetAxisIndex:1, color:"#D88449"}},  
-        isStacked: true
+            5: {type: 'line', targetAxisIndex:1, color:"#003f5c"}},  
+        isStacked: true,
+        chartArea:{
+                top:60,
+                width: "80%",
+                height: "80%" }
          };
 
     chart.draw(chartData,options);
 
 }//c2Chart2ResponseHandler
 
-
-
-function c3Chart1ResponseHandler(response) {
-
-    var chartData=response.getDataTable();
-    var chart = new google.visualization.ColumnChart(document.getElementById('c3Chart1'));
-    
-    var options = {
-        legend: { position: 'right' },
-        backgroundColor: "none",//"#f5f8fd",
-        series: {
-            0: {color: "#2B5391"},
-            1: {color: "#ECBD62"},
-            2: {color: "#95BB63"}
-        }
-    };
-
-    chart.draw(chartData,options);
-
-}//c3Chart1ResponseHandler
-
-
-function c3Chart2ResponseHandler(response) {
-
-    var chartData=response.getDataTable();
-    console.log(chartData)
-    var chart = new google.visualization.ComboChart(document.getElementById('c3Chart2'));
-    
-    var options = {
-        //vAxis: {title: 'Visits'},
-        seriesType: 'bars',
-        hAxis: {gridlines: {color: 'transparent'}},
-        
-        vAxes: {
-            0: {
-                title:'Visits (in Thousands)',
-                minorGridlines: {color: 'transparent'}
-                //textStyle: {color: 'orange'}
-              },
-                  1: {
-                    title:'Order Conversion Rate',
-                    minorGridlines: {color: 'transparent'},
-                    textStyle: {color: '#D88449'}
-                  }},
-        series: {
-            0: {color: "#234087"},
-            1: {color: "#83ACD8"},
-            2: {type: 'line', targetAxisIndex:1, color:"#D88449"}},  
-        isStacked: true
-         };
-
-    chart.draw(chartData,options);
-
-}//c3Chart2ResponseHandler
-
-
-function c4Chart1ResponseHandler(response) {
-
-    var chartData=response.getDataTable();
-    var chart = new google.visualization.ColumnChart(document.getElementById('c4Chart1'));
-    
-    var options = {
-        legend: { position: 'right' },
-        backgroundColor: "none",//"#f5f8fd",
-        series: {
-            0: {color: "#2B5391"},
-            1: {color: "#ECBD62"},
-            2: {color: "#95BB63"}
-        }
-    };
-
-    chart.draw(chartData,options);
-
-}//c4Chart1ResponseHandler
-
-
-function c4Chart2ResponseHandler(response) {
-
-    var chartData=response.getDataTable();
-    console.log(chartData)
-    var chart = new google.visualization.ComboChart(document.getElementById('c4Chart2'));
-    
-    var options = {
-        //vAxis: {title: 'Visits'},
-        seriesType: 'bars',
-        hAxis: {gridlines: {color: 'transparent'}},
-        
-        vAxes: {
-            0: {
-                title:'Visits (in Thousands)',
-                minorGridlines: {color: 'transparent'}
-                //textStyle: {color: 'orange'}
-              },
-                  1: {
-                    title:'Order Conversion Rate',
-                    minorGridlines: {color: 'transparent'},
-                    textStyle: {color: '#D88449'}
-                  }},
-        series: {
-            0: {color: "#234087"},
-            1: {color: "#83ACD8"},
-            2: {type: 'line', targetAxisIndex:1, color:"#D88449"}},  
-        isStacked: true
-         };
-
-    chart.draw(chartData,options);
-
-}//c4Chart2ResponseHandler
 
 
 
